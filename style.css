@@ -48,13 +48,23 @@ nav ul {
   list-style-type: none;
 }
 nav li {
-  padding: 0 0.3rem;
+  padding: 0 0.5rem;
+  border-right: 1px solid #000;
 }
 a {
   text-decoration: none;
   color: inherit;
   text-transform: uppercase;
 }
+a:not(header a)::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 1px;
+  background-color: #000;
+  transition: width 0.4s ease;
+}
+
 h1 {
   margin: auto;
   font-family: "Luckiest Guy";
@@ -108,15 +118,20 @@ p {
   header nav {
     display: none;
   }
+  .menu li {
+    border: none;
+  }
 }
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #333;
     color: cornsilk;
   }
+
   header {
     color: initial;
   }
+
   h1 {
     color: initial;
   }
@@ -127,5 +142,11 @@ p {
   }
   .menu {
     color: initial;
+  }
+}
+
+@media (hover: hover) {
+  a:not(header a):hover::after {
+    width: 100%;
   }
 }

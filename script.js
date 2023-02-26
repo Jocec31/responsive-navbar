@@ -32,6 +32,7 @@ window.addEventListener("resize", (e) => {
   }
 });
 
+// conditionne la width 100% en cas de changement d'orientation
 window.addEventListener("orientationchange", (e) => {
   //   e.preventDefault();
   main.style.maxWidth = "100%";
