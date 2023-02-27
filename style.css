@@ -117,6 +117,12 @@ header a {
   }
 }
 
+@media (max-width: 767px) {
+  main.active {
+    max-width: 100%;
+  }
+}
+
 /* style main */
 main {
   overflow-x: hidden;
