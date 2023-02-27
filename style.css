@@ -9,144 +9,128 @@ html {
   height: 100vh;
 }
 body {
-  background: #fff;
+  background: #333;
   height: 100%;
   font-family: Open sans, Helvetica, sans-serif;
 }
-.project {
-  /* éviter les scroll bar horizontal et verticale */
-  max-width: 100%;
-  overflow-x: hidden;
-  max-height: 100%;
-}
 header {
-  background-color: #d7cdcd;
+  position: fixed;
+  z-index: 99;
+  /* en fixed prend la taille que du contenu donc il faut width:100% */
+  width: 100%;
   display: flex;
-  justify-content: space-between;
+  background-color: #f1f1f1;
   align-items: center;
-  padding: 0.5rem 1rem;
-  max-width: 100%;
-  position: sticky;
-  top: 0;
-  z-index: 10;
+  padding: 10px 15px;
+  border-bottom: 1px solid rgba(34, 34, 34, 0.4);
 }
-button {
-  display: none;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  padding: 5px 5px 3px 5px;
-  border: none;
-  cursor: pointer;
+/* pour faire en sorte que tous les éléments du header se partagent l'espace de façon
+équivalente je leur mets une width:100% car par défaut ils ont un flex-shrink:1 */
+.toggler-container,
+.navigation,
+.logo-link,
+.user {
+  width: 100%;
 }
 
-img {
-  width: 25px;
+.toggler-container {
+  display: none;
 }
-nav ul {
+
+.navigation a {
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.logo-link {
+  text-align: center;
+}
+
+/* quand le navigateur ananlyse une image dans son container, il rajoute en dessous
+de l'image un petit espace supplémentaire, ce qui la rend difficile à centrer.
+Pour remédeir à ce problème on utilise display:flex sur le container */
+.user {
+  /* background-color: red; */
   display: flex;
-  list-style-type: none;
 }
-nav li {
-  padding: 0 0.5rem;
-  border-right: 1px solid #000;
+.user img {
+  width: 30px;
+  /* pour pousser l'image à droite */
+  margin-left: auto;
 }
-a {
-  text-decoration: none;
+header a {
   color: inherit;
+  text-decoration: none;
   text-transform: uppercase;
 }
-a:not(header a)::after {
-  content: "";
-  display: block;
-  width: 0;
-  height: 1px;
-  background-color: #000;
-  transition: width 0.4s ease;
-}
+/* img {
+  width: 30px;
+} */
 
-h1 {
-  margin: auto;
-  font-family: "Luckiest Guy";
-}
-main {
-  display: flex;
-  gap: 1rem;
-  max-width: 100%;
-  height: 100%;
-}
-.menu {
-  background-color: #d7cdcd;
-  display: flex;
-  width: 200px;
-  min-height: 100%;
-  flex-shrink: 0;
-  position: fixed;
-  top: 49px;
-  transform: translateX(-100%);
-  transition: all 0.4s linear;
-}
-.menu nav {
-  /* background-color: green; */
-  padding: 3.5rem 1rem;
-}
-.menu ul {
-  flex-direction: column;
-  align-items: flex-start;
-}
-.menu ul li {
-  padding-block-end: 0.7rem;
-}
-.sections {
-  max-width: 100%;
-  min-height: 100%;
-  padding: 2rem 1rem;
-  transition: all 0.4s linear;
-}
-section {
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-  padding: 1rem;
-}
-p {
-  margin-block: 1rem;
-}
 /* media queries */
-@media (max-width: 768px) {
-  button {
+@media (max-width: 1000px) {
+  .toggler-container {
+    display: block;
+  }
+  .toggler-container button {
     display: flex;
+    padding: 4px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
   }
-  header nav {
-    display: none;
+  .toggler-container img {
+    width: 20px;
   }
-  .menu li {
-    border: none;
+  /* sortir la navigation horizontale pour la passer à la verticale létérale */
+
+  /* 1 - on la sort du flux */
+  .navigation {
+    position: absolute;
+    width: 240px;
+    background-color: #f1f1f1;
+    /* pour lui donner une hauteur on fait un calcul */
+    /* 100vh (hauteur de la fenêtre) - 100%(hauteur de son parent header) - 1px(hauteur
+    de la bordure du parent header) */
+    height: calc(100vh - 100% - 1px);
+    left: 0;
+    /* pour le top on utilise encore calc et on on positionne à 100% de la 
+    hauteur du parent header + 1px de bordure pour la voir*/
+    top: calc(100% + 1px);
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    transition: all 0.4s ease-out;
+    transform: translateX(-100%);
+  }
+  .navigation a {
+    display: block;
+    margin: 14px 0;
+    padding: 0 20px;
+  }
+  .navigation.active {
+    transform: translateX(0%);
+  }
+  main.active {
+    transform: translateX(240px);
+    max-width: calc(100vw - 240px);
   }
 }
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: #333;
-    color: cornsilk;
-  }
 
-  header {
-    color: initial;
-  }
-
-  h1 {
-    color: initial;
-  }
-  section {
-    box-shadow: none;
-    border: 1px solid cornsilk;
-    margin-block-end: 1rem;
-  }
-  .menu {
-    color: initial;
-  }
+/* style main */
+main {
+  overflow-x: hidden;
+  padding: 20px;
+  position: relative;
+  top: 60px;
+  color: cornsilk;
+  transition: transform 0.4s ease-out;
 }
-
-@media (hover: hover) {
-  a:not(header a):hover::after {
-    width: 100%;
-  }
+main section {
+  border: 1px solid cornsilk;
+  padding: 20px;
+  margin: 10px 0;
+}
+main p:first-child {
+  margin-bottom: 2rem;
 }
